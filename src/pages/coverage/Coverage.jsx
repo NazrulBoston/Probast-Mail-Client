@@ -1,8 +1,8 @@
-import { useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import usStates from "../../data/usStates";
 import { FaSearch } from "react-icons/fa";
+import { useState, useEffect } from "react";
+
 
 
 
@@ -38,6 +38,18 @@ const Coverage = () => {
 
   // Store selected state object
   const [selectedState, setSelectedState] = useState(null);
+
+  const [usStates, setUsStates] = useState([]);
+
+
+  useEffect(() => {
+    fetch("/data/usStates.json")
+      .then((res) => res.json())
+      .then((data) => setUsStates(data))
+      .catch((error) => console.error("Error loading states:", error));
+  }, []);
+
+
 
 
   /**
@@ -125,13 +137,17 @@ const Coverage = () => {
               key={index}
               position={[state.lat, state.lng]}
               eventHandlers={{
-                // Open popup when mouse enters marker
                 mouseover: (e) => e.target.openPopup(),
-
-                // Close popup when mouse leaves marker
                 mouseout: (e) => e.target.closePopup(),
+
+                // ✅ ADD THIS
+                click: () => {
+                  setSelectedState(state);     // same as search result
+                  setSearchText(state.name);   // optional: show name in input
+                },
               }}
             >
+
               <Popup>
                 <strong>{state.name}</strong>
                 <br />

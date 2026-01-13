@@ -8,6 +8,7 @@ const Navbar = () => {
     const navItems = (
         <>
             <li><NavLink to="/">Home</NavLink></li>
+            <li><NavLink to="/coverage">Coverage</NavLink></li>
             <li><NavLink to="/about">About</NavLink></li>
         </>
     );
@@ -49,32 +50,23 @@ const Navbar = () => {
                     // ⭐ HOVER DROPDOWN FOR PROFILE
                     <div className="dropdown dropdown-end dropdown-hover">
 
-                        {/* PROFILE IMAGE */}
-                        <div tabIndex={0} className="btn btn-ghost btn-circle avatar">
-                            <div className="w-10 rounded-full">
-
-                                {/* FIXED: SHOWS GOOGLE PROFILE PHOTO */}
-                                <img
-                                    src={
-                                        user.photoURL ||
-                                        "https://i.ibb.co/ZmFHZDM/default-avatar.jpg"
-                                    }
-                                    alt="Profile"
-                                />
-                            </div>
+                        {/* Profile Trigger */}
+                        <div tabIndex={0} role="button" className="cursor-pointer">
+                            <img
+                                src={user?.photoURL}
+                                alt="Profile"
+                                referrerPolicy="no-referrer"
+                                className="w-10 h-10 rounded-full border border-gray-300 object-cover"
+                            />
                         </div>
 
-                        {/* HOVER MENU */}
+                        {/* Dropdown Menu */}
                         <ul
                             tabIndex={0}
                             className="menu menu-sm dropdown-content mt-3 z-[100] p-3 shadow bg-base-100 rounded-box w-56 space-y-2"
                         >
-                            {/* EMAIL */}
-                            <li className="text-center font-semibold">
-                                {user.email}
-                            </li>
+                            <li className="text-center font-semibold">{user.email}</li>
 
-                            {/* LOGOUT BUTTON */}
                             <li>
                                 <button
                                     onClick={logOut}
@@ -85,6 +77,7 @@ const Navbar = () => {
                             </li>
                         </ul>
                     </div>
+
                 ) : (
                     <>
                         <NavLink to="/register" className="btn">Sign Up</NavLink>
